@@ -67,6 +67,13 @@
     <Compile Include="HelpClass.cs" />
     <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\ObservableObject.cs" />
+    <Compile Include="Models\GraphModel.cs" />
+    <Compile Include="Models\NodeEnergyLoss.cs" />
+    <Compile Include="Models\NodeFirst.cs" />
+    <Compile Include="Models\NodeSecond.cs" />
+    <Compile Include="Models\TableOneModel.cs" />
+    <Compile Include="Models\TableThreeModelcs.cs" />
+    <Compile Include="Models\TableTwoModel.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
     <Compile Include="ViewModel\TableTwoViewModel.cs" />
     <Compile Include="ViewModel\TableThreeViewModel.cs" />
@@ -146,8 +153,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

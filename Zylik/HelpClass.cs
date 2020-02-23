@@ -1,4 +1,4 @@
-﻿namespace Zylik
+﻿namespace Energy
 {
     public static class HelpClass
     {

@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
-using Zylik.ViewModel;
+using Energy.ViewModel;
 
-namespace Zylik
+namespace Energy
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml

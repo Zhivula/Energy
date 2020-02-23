@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Zylik.Helpers
+namespace Energy.Helpers
 {
     public class ObservableObject : INotifyPropertyChanged
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Zylik.Properties
+namespace Energy.Properties
 {
 
 

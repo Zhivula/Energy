@@ -1,15 +1,15 @@
-﻿<UserControl x:Class="Zylik.View.TableOneView"
+﻿<UserControl x:Class="Energy.View.TableOneView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Zylik.View"
+      xmlns:local="clr-namespace:Energy.View"
       mc:Ignorable="d" 
       d:DesignHeight="1100" d:DesignWidth="1280" >
 
     <Grid Background="#82B1FF">
 
-        <DataGrid x:Name="dataGridOne" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top">
+        <DataGrid ItemsSource="{Binding GetList}" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background"  Value="#283593"/>

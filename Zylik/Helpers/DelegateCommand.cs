@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Zylik.Helpers
+namespace Energy.Helpers
 {
     public class DelegateCommand : ICommand
     {

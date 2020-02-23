@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using System.Windows;
-using Zylik.Helpers;
+using Energy.Helpers;
 
-namespace Zylik.ViewModel
+namespace Energy.ViewModel
 {
     public class MainWindowViewModel
     {
         MainWindow window = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+
         public MainWindowViewModel()
         {
             OpenTableOneCommand = new DelegateCommand(o => OpenTableOne());
