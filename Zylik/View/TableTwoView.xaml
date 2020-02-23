@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Zylik.View.TableTwoView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Zylik.View"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1040">
+
+    <Grid Background="#82B1FF">
+
+        <DataGrid x:Name="dataGridTwo" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="400">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background"  Value="#283593"/>
+                    <Setter Property="BorderThickness"  Value="1"/>
+                    <Setter Property="BorderBrush"  Value="White"/>
+                    <Setter Property="Foreground"  Value="White"/>
+                    <Setter Property="FontSize"  Value="18"/>
+                    <Setter Property="Height"  Value="35"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="  Wpgu, кВт*ч" Width="*" Binding="{Binding nodeWpgu}"/>
+                <DataGridTextColumn Header="  Qgu, кВа" Width="*" Binding="{Binding nodeQgu}"/>
+                <DataGridTextColumn Header="  Pgu, кВт" Width="*" Binding="{Binding nodePgu}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,59 @@
+﻿namespace Zylik
+{
+    public static class HelpClass
+    {
+        public static byte kolvo_lines;
+        public static byte kolvo_trans;
+        public static float[] n;
+        public static float[] k;
+        public static float[] ao;
+        public static float[] p;
+        public static float[] q;
+        public static float[] Wpi;
+        public static float[] Wqi;
+        public static float[] U;
+        public static float[] dQli;
+        public static float[] dPli;
+        public static float[] Tmai;
+        public static float[] dWi;
+        public static float[] dU;
+        public static float[] dQj;
+        public static float[] dPj;
+        public static float[] Tmaj;
+        public static float[] dWj;
+        public static float Wpgy;
+        public static float Pgy;
+        public static float Qgy;
+        public static float dPt;
+        public static float dQt;
+        public static float dPxx;
+        public static float dQxx;
+        public static float dWt;
+        public static float dWxx;
+        public static float dQl;
+        public static float dPl;
+        public static float dWl;
+        public static float dW;
+        public static float dQ;
+        public static float dP;
+        public static float dQlt;
+        public static float dPlt;
+        public static float dPtproc;
+        public static float dQtproc;
+        public static float dPxxproc;
+        public static float dQxxproc;
+        public static float dWtproc;
+        public static float dWxxproc;
+        public static float dQlproc;
+        public static float dPlproc;
+        public static float dWlproc;
+        public static float dWproc;
+        public static float dQproc;
+        public static float dPproc;
+        public static float dQltproc;
+        public static float dPltproc;
+        public static short a;
+        public static float[] Snomj;
+        public static string[] marka;
+    }
+}
