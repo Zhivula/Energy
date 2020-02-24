@@ -52,7 +52,7 @@
         public static float dPproc;
         public static float dQltproc;
         public static float dPltproc;
-        public static short a;
+        public static int a;
         public static float[] Snomj;
         public static string[] marka;
     }

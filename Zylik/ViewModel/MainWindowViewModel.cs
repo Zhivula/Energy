@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using Energy.Helpers;
+using Zylik.Models;
 
 namespace Energy.ViewModel
 {
@@ -14,6 +15,8 @@ namespace Energy.ViewModel
             OpenTableTwoCommand = new DelegateCommand(o => OpenTableTwo());
             OpenTableThreeCommand = new DelegateCommand(o => OpenTableThree());
             OpenGraphCommand = new DelegateCommand(o => OpenGraph());
+
+            MainModel model = new MainModel();
         }
         #region Command
         public DelegateCommand OpenTableOneCommand { get; set; }

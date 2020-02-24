@@ -67,13 +67,17 @@
     <Compile Include="HelpClass.cs" />
     <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\ObservableObject.cs" />
+    <Compile Include="Models\FlowsPower.cs" />
     <Compile Include="Models\GraphModel.cs" />
+    <Compile Include="Models\Lines.cs" />
+    <Compile Include="Models\MainModel.cs" />
     <Compile Include="Models\NodeEnergyLoss.cs" />
     <Compile Include="Models\NodeFirst.cs" />
     <Compile Include="Models\NodeSecond.cs" />
     <Compile Include="Models\TableOneModel.cs" />
     <Compile Include="Models\TableThreeModelcs.cs" />
     <Compile Include="Models\TableTwoModel.cs" />
+    <Compile Include="Models\Transformers.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
     <Compile Include="ViewModel\TableTwoViewModel.cs" />
     <Compile Include="ViewModel\TableThreeViewModel.cs" />
