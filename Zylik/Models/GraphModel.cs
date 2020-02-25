@@ -17,6 +17,8 @@ namespace Zylik.Models
 
         public PictureBox Picture { get; private set; }
 
+        private MainModel mainModel;
+
         readonly SolidBrush brush;
         readonly Font font20;
         readonly Font font15;
@@ -28,7 +30,9 @@ namespace Zylik.Models
         readonly FontFamily calibryFont;
 
         public GraphModel()
-        {            
+        {
+            mainModel = new MainModel();
+
             bmm = new Bitmap(3000, 900);//размерность полотна
             g = Graphics.FromImage(bmm);// g - графический компонент
 
@@ -61,13 +65,13 @@ namespace Zylik.Models
 
             DrawingFirstNode(ref g, map_y1[1]);
 
-            for (byte i = 0; i <= HelpClass.a; i++)
+            for (byte i = 0; i <= mainModel.a; i++)
             {
-                for (byte j = 0; j <= HelpClass.a; j++)
+                for (byte j = 0; j <= mainModel.a; j++)
                 {
                     float cos_k = (float)Math.Cos((alfa_t[j] * Math.PI) / 180);
                     float sin_k = (float)Math.Sin((alfa_t[j] * Math.PI) / 180);
-                    if (HelpClass.k[i] == HelpClass.n[j] & mass_0_1[j] == true & branches[j] > 0)//рисуем линию
+                    if (mainModel.k[i] == mainModel.n[j] & mass_0_1[j] == true & branches[j] > 0)//рисуем линию
                     {
                         map_x1[j] = map_x2[i];
                         map_x2[j] = map_x1[j] + cos_k * LengthLine;
@@ -75,7 +79,7 @@ namespace Zylik.Models
                         map_y2[j] = map_y1[j] + sin_k * LengthLine;
                         DrawingLine(ref g, map_x1[j], map_x2[j], map_y1[j], map_y2[j], alfa_t[j], j);
                     }
-                    else if (HelpClass.k[i] == HelpClass.n[j] & mass_0_1[j] == false) //рисуем трансформатор
+                    else if (mainModel.k[i] == mainModel.n[j] & mass_0_1[j] == false) //рисуем трансформатор
                     {
                         map_x1[j] = map_x2[i];
                         map_x2[j] = map_x1[j] + cos_k * (Value / 4);
@@ -107,10 +111,10 @@ namespace Zylik.Models
             
             g.DrawLine(penBlack1, x1, y1, x2, y2);
             g.FillEllipse(brush, x2 - 5, y2 - 5, 10, 10);
-            g.DrawString(HelpClass.k[j].ToString(), font15, brush, x2 - 10, y2 - 35);
+            g.DrawString(mainModel.k[j].ToString(), font15, brush, x2 - 10, y2 - 35);
             g.TranslateTransform(x1 + 30 * cos_k, y1 + 30 * sin_k);
             g.RotateTransform(alfa_t);
-            g.DrawString("A-" + HelpClass.marka[j], font15, Brushes.Green, 0, 0);
+            g.DrawString("A-" + mainModel.marka[j], font15, Brushes.Green, 0, 0);
             g.RotateTransform(-alfa_t);
             g.TranslateTransform(-(x1 + 30 * cos_k), -(y1 + 30 * sin_k));
         }
@@ -131,7 +135,7 @@ namespace Zylik.Models
 
             g.TranslateTransform(x1 + cos_k * 0.2f * Value, y1 + sin_k * 0.25f * Value - 1.5f * Radius);
             g.RotateTransform(alfa_t);
-            g.DrawString("ТМ-" + HelpClass.Snomj[j], font15, Brushes.Blue, 0, 0);
+            g.DrawString("ТМ-" + mainModel.Snomj[j], font15, Brushes.Blue, 0, 0);
             g.RotateTransform(-alfa_t);
             g.TranslateTransform(-(x1 + cos_k * 0.2f * Value), -(y1 + sin_k * 0.25f * Value - 1.5f * Radius));
             g.DrawLine(penBlack1, x1, y1, x2, y2);
@@ -142,7 +146,7 @@ namespace Zylik.Models
             y1 += sin_k * (Value * 0.75f);
             y2 = y1 + sin_k * (Value / 4);
             g.DrawLine(penBlack1, x1, y1, x2, y2);
-            g.DrawString(HelpClass.k[j].ToString(), font12, Brushes.Red, x2 + 10, y2 - 30);
+            g.DrawString(mainModel.k[j].ToString(), font12, Brushes.Red, x2 + 10, y2 - 30);
         }
 
         private void DrawingFirstNode(ref Graphics g, float y1)
@@ -169,7 +173,7 @@ namespace Zylik.Models
             float alfa;
             var alfa_t = new float[Max];
 
-            for (int i = 1; i <= HelpClass.a; i++) //глобальный цикл
+            for (int i = 1; i <= mainModel.a; i++) //глобальный цикл
             {
                 alfa = 180 / (branches[i] + 1);//элементарный угол   
 
@@ -193,11 +197,11 @@ namespace Zylik.Models
         {
             bool[] mass_0_1 = new bool[Max];
 
-            for (byte i = 0; i < HelpClass.a; i++)
+            for (byte i = 0; i < mainModel.a; i++)
             {
-                for (byte j = 0; j <= HelpClass.a; j++)
+                for (byte j = 0; j <= mainModel.a; j++)
                 {
-                    if (HelpClass.k[i] == HelpClass.n[j])
+                    if (mainModel.k[i] == mainModel.n[j])
                     {
                         mass_0_1[i] = true; //линия найдена, т.к. только у линии в данном случае есть дальше элементы
                     }
@@ -216,11 +220,11 @@ namespace Zylik.Models
         {
             var branches = new byte[Max];
             byte ch = 0;// просто счётчик               
-            for (var i = 1; i <= HelpClass.a; i++)
+            for (var i = 1; i <= mainModel.a; i++)
             {
-                for (var j = 1; j <= HelpClass.a; j++)
+                for (var j = 1; j <= mainModel.a; j++)
                 {
-                    if (HelpClass.n[i] == HelpClass.n[j]) ch++;
+                    if (mainModel.n[i] == mainModel.n[j]) ch++;
                 }
                 branches[i] = ch;
                 ch = 0;
@@ -232,24 +236,24 @@ namespace Zylik.Models
             float bypher = 0f;//буферная переменная, для переброски данных массива
             string bypher2 = "";//буферная переменная, для переброски данных массива
 
-            for (byte i = 0; i < HelpClass.a; i++)
+            for (byte i = 0; i < mainModel.a; i++)
             {
-                for (int j = 0; j < HelpClass.a - i; j++)
+                for (int j = 0; j < mainModel.a - i; j++)
                 {
-                    if (HelpClass.n[j] > HelpClass.n[j + 1])
+                    if (mainModel.n[j] > mainModel.n[j + 1])
                     {
-                        bypher = HelpClass.n[j];
-                        HelpClass.n[j] = HelpClass.n[j + 1];
-                        HelpClass.n[j + 1] = bypher;
-                        bypher = HelpClass.k[j];
-                        HelpClass.k[j] = HelpClass.k[j + 1];
-                        HelpClass.k[j + 1] = bypher;
-                        bypher = HelpClass.Snomj[j];
-                        HelpClass.Snomj[j] = HelpClass.Snomj[j + 1];
-                        HelpClass.Snomj[j + 1] = bypher;
-                        bypher2 = HelpClass.marka[j];
-                        HelpClass.marka[j] = HelpClass.marka[j + 1];
-                        HelpClass.marka[j + 1] = bypher2;
+                        bypher = mainModel.n[j];
+                        mainModel.n[j] = mainModel.n[j + 1];
+                        mainModel.n[j + 1] = bypher;
+                        bypher = mainModel.k[j];
+                        mainModel.k[j] = mainModel.k[j + 1];
+                        mainModel.k[j + 1] = bypher;
+                        bypher = mainModel.Snomj[j];
+                        mainModel.Snomj[j] = mainModel.Snomj[j + 1];
+                        mainModel.Snomj[j + 1] = bypher;
+                        bypher2 = mainModel.marka[j];
+                        mainModel.marka[j] = mainModel.marka[j + 1];
+                        mainModel.marka[j + 1] = bypher2;
                     }
                 }
             }

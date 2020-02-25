@@ -20,9 +20,11 @@ namespace Zylik.Models
 
         public const float kz = 1;//коэффициент загрузки трансформатора
 
-        public float[] dU { get; private set; }
+        public float[] dU { get; private set; }//Потери напряжения в узлах
         public float[] n { get; private set; }//массив с номерами начал участков
         public float[] k { get; private set; }//массив с номерами концов участков
+
+        public byte[] ao { get; private set; }
 
         public string[] marka { get; private set; }
         public float[] dl { get; private set; }
@@ -79,6 +81,34 @@ namespace Zylik.Models
         public float dPl { get; private set; }//суммарные потери активной мощности на линейных участках
         public float dWl { get; private set; }//суммарные нагрузочные потери электроэнергии на линейных участках схемы
 
+        public float olPj { get; private set; }
+        public float olQj { get; private set; }
+        public float olWpj { get; private set; }
+
+        public float dW { get; private set; }
+        public float dQ { get; private set; }
+        public float dP { get; private set; }
+        public float dQlt { get; private set; }
+        public float dPlt { get; private set; }
+        public float Wpgy { get; private set; }
+        public float Pgy { get; private set; }
+        public float Qgy { get; private set; }
+        public float dWproc { get; private set; }
+        public float dWtproc { get; private set; }
+        public float dWlproc { get; private set; }
+        public float dWxxproc { get; private set; }
+        public float dPproc { get; private set; }
+        public float dPlproc { get; private set; }
+        public float dPtproc { get; private set; }
+        public float dPxxproc { get; private set; }
+        public float dPltproc { get; private set; }
+        public float dQproc { get; private set; }
+        public float dQtproc { get; private set; }
+        public float dQlproc { get; private set; }
+        public float dQxxproc { get; private set; }
+        public float dQltproc { get; private set; }
+        public int a { get; private set; }
+
         public MainModel()
         {
             dU = new float[max];
@@ -100,7 +130,7 @@ namespace Zylik.Models
             k = transformers.k;
             dU = transformers.dU;
 
-            var a = Transformers.Count + Lines.Count;//общее количество участков
+            a = Transformers.Count + Lines.Count;//общее количество участков
 
             Snomj = transformers.Snomj;
             Tmaj = transformers.Tmaj;
@@ -128,14 +158,14 @@ namespace Zylik.Models
             Wqj = transformers.Wqj;
             dWj = transformers.dWj;
 
-            byte[] ao = GetAO(n,k);//массив адресных отображений
+            ao = GetAO(n,k);//массив адресных отображений
 
             FlowsPower flowsPower = new FlowsPower(transformers, ao);
 
-             p = flowsPower.p;
-             q = flowsPower.q;
-             Wpi = flowsPower.Wpi;
-             Wqi = flowsPower.Wqi;
+            p = flowsPower.p;
+            q = flowsPower.q;
+            Wpi = flowsPower.Wpi;
+            Wqi = flowsPower.Wqi;
 
             lines.Calculation(Wqi, Wpi, p, q);  
             
@@ -163,92 +193,11 @@ namespace Zylik.Models
 
             FullPowerLines();
 
-            //Вычисление суммарных потерь активной, реактивной мощности и электроэнергии                     
-            float olPj = 0;
-            float olQj = 0;
-            float olWpj = 0;
-            float dW = dWl + dWt + dWxx;
-            float dQ = dQl + dQt + dQxx;
-            float dP = dPl + dPt + dPxx;
-            float dQlt = dQt + dQl;
-            float dPlt = dPl + dPt;
-            for (byte i = Lines.Count; i < a; i++)
-            {
-                olPj += Pj[i];
-                olQj += Qj[i];
-                olWpj += Wpj[i];
-            }
-            float Wpgy = dW + olWpj;//Поток электроэнергии на головной участке линии
-            float Pgy = dP + olPj;//Поток активной мощности на головном участке линии
-            float Qgy = dQ + olQj;//Поток реактивной мощности на головном участке линии
-            float dWproc = dW / Wpgy * 100;//Суммарные потери электроэнергии в процентах
-            float dWtproc = dWt / Wpgy * 100;//Суммарные потери электроэнергии на участках с трансформаторами в процентах
-            float dWlproc = dWl / Wpgy * 100;//Суммарные потери электроэнергии на участках линий в процентах
-            float dWxxproc = dWxx / Wpgy * 100;//Суммарные потери электроэнергии в стали трансформаторов в процентах
-            float dPproc = dP / Pgy * 100;//Потери активной мощности в процентах
-            float dPtproc = dPt / Pgy * 100;//Потери активной мощности в трансформаторах в процентах
-            float dPlproc = dPl / Pgy * 100;//Потери активной мощности на линейных участках в процентах
-            float dPxxproc = dPxx / Pgy * 100;//Потери реактивной мощности в стали трансформаторов в процентах
-            float dPltproc = dPlt / Pgy * 100;//Потери активной мощности в трансформаторах и на линейных участках схемы в процентах
-            float dQproc = dQ / Qgy * 100;//Потери реактивной мощности в процентах
-            float dQtproc = dQt / Qgy * 100; //Потери реактивной мощности в трансформаторах в процентах
-            float dQlproc = dQl / Qgy * 100;//Потери реактивной мощности на линейных участках в процентах
-            float dQxxproc = dQxx / Qgy * 100;//Потери реактивной мощности в стали трансформаторов в процентах          
-            float dQltproc = dQlt / Qgy * 100;//Потери реактивной мощности в трансформаторах и на линейных участках схемы в процентах
-            HelpClass.kolvo_lines = Lines.Count;
-            HelpClass.kolvo_trans = Transformers.Count;
-            HelpClass.Wpgy = Wpgy;
-            HelpClass.Pgy = Pgy;
-            HelpClass.Qgy = Qgy;
-            HelpClass.dPt = dPt;
-            HelpClass.dQt = dQt;
-            HelpClass.dPxx = dPxx;
-            HelpClass.dQxx = dQxx;
-            HelpClass.dWt = dWt;
-            HelpClass.dWxx = dWxx;
-            HelpClass.dQl = dQl;
-            HelpClass.dPl = dPl;
-            HelpClass.dWl = dWl;
-            HelpClass.dW = dW;
-            HelpClass.dQ = dQ;
-            HelpClass.dP = dP;
-            HelpClass.dQlt = dQlt;
-            HelpClass.dPlt = dPlt;
-            HelpClass.dPtproc = dPtproc;
-            HelpClass.dQtproc = dQtproc;
-            HelpClass.dPxxproc = dPxxproc;
-            HelpClass.dQxxproc = dQxxproc;
-            HelpClass.dWtproc = dWtproc;
-            HelpClass.dWxxproc = dWxxproc;
-            HelpClass.dQlproc = dQlproc;
-            HelpClass.dPlproc = dPlproc;
-            HelpClass.dWlproc = dWlproc;
-            HelpClass.dWproc = dWproc;
-            HelpClass.dQproc = dQproc;
-            HelpClass.dPproc = dPproc;
-            HelpClass.dQltproc = dQltproc;
-            HelpClass.dPltproc = dPltproc;
-            HelpClass.a = a;
-            Array.Copy(Snomj, HelpClass.Snomj = new float[Snomj.Length], Snomj.Length);
-            Array.Copy(marka, HelpClass.marka = new string[marka.Length], marka.Length);
-            Array.Copy(n, HelpClass.n = new float[n.Length], n.Length);
-            Array.Copy(k, HelpClass.k = new float[k.Length], k.Length);
-            Array.Copy(ao, HelpClass.ao = new float[ao.Length], ao.Length);
-            Array.Copy(p, HelpClass.p = new float[p.Length], p.Length);
-            Array.Copy(q, HelpClass.q = new float[q.Length], q.Length);
-            Array.Copy(Wpi, HelpClass.Wpi = new float[Wpi.Length], Wpi.Length);
-            Array.Copy(Wqi, HelpClass.Wqi = new float[Wqi.Length], Wqi.Length);
-            Array.Copy(U, HelpClass.U = new float[U.Length], U.Length);
-            Array.Copy(dQli, HelpClass.dQli = new float[dQli.Length], dQli.Length);
-            Array.Copy(dPli, HelpClass.dPli = new float[dPli.Length], dPli.Length);
-            Array.Copy(Tmai, HelpClass.Tmai = new float[Tmai.Length], Tmai.Length);
-            Array.Copy(dWi, HelpClass.dWi = new float[dWi.Length], dWi.Length);
-            Array.Copy(dU, HelpClass.dU = new float[dU.Length], dU.Length);
-            Array.Copy(dQj, HelpClass.dQj = new float[dQj.Length], dQj.Length);
-            Array.Copy(dPj, HelpClass.dPj = new float[dPj.Length], dPj.Length);
-            Array.Copy(Tmaj, HelpClass.Tmaj = new float[Tmaj.Length], Tmaj.Length);
-            Array.Copy(dWj, HelpClass.dWj = new float[dWj.Length], dWj.Length);
+            SumPowerTransformers();
+
+            SumPowerLinesTransformers();
         }
+
         private byte[] GetAO(float[] n, float[] k)
         {
             var ao = new byte[max];
@@ -290,6 +239,41 @@ namespace Zylik.Models
                 dPl += dPli[i];
                 dWl += dWi[i];
             }
+        }
+        private void SumPowerTransformers()
+        {
+            for (byte i = Lines.Count; i < Lines.Count+Transformers.Count; i++)
+            {
+                olPj += Pj[i];
+                olQj += Qj[i];
+                olWpj += Wpj[i];
+            }
+        }
+        private void SumPowerLinesTransformers()
+        {
+            dW = dWl + dWt + dWxx;
+            dQ = dQl + dQt + dQxx;
+            dP = dPl + dPt + dPxx;
+            dQlt = dQt + dQl;
+            dPlt = dPl + dPt;
+
+            Wpgy = dW + olWpj;//Поток электроэнергии на головной участке линии
+            Pgy = dP + olPj;//Поток активной мощности на головном участке линии
+            Qgy = dQ + olQj;//Поток реактивной мощности на головном участке линии
+            dWproc = dW / Wpgy * 100;//Суммарные потери электроэнергии в процентах
+            dWtproc = dWt / Wpgy * 100;//Суммарные потери электроэнергии на участках с трансформаторами в процентах
+            dWlproc = dWl / Wpgy * 100;//Суммарные потери электроэнергии на участках линий в процентах
+            dWxxproc = dWxx / Wpgy * 100;//Суммарные потери электроэнергии в стали трансформаторов в процентах
+            dPproc = dP / Pgy * 100;//Потери активной мощности в процентах
+            dPtproc = dPt / Pgy * 100;//Потери активной мощности в трансформаторах в процентах
+            dPlproc = dPl / Pgy * 100;//Потери активной мощности на линейных участках в процентах
+            dPxxproc = dPxx / Pgy * 100;//Потери реактивной мощности в стали трансформаторов в процентах
+            dPltproc = dPlt / Pgy * 100;//Потери активной мощности в трансформаторах и на линейных участках схемы в процентах
+            dQproc = dQ / Qgy * 100;//Потери реактивной мощности в процентах
+            dQtproc = dQt / Qgy * 100; //Потери реактивной мощности в трансформаторах в процентах
+            dQlproc = dQl / Qgy * 100;//Потери реактивной мощности на линейных участках в процентах
+            dQxxproc = dQxx / Qgy * 100;//Потери реактивной мощности в стали трансформаторов в процентах          
+            dQltproc = dQlt / Qgy * 100;//Потери реактивной мощности в трансформаторах и на линейных участках схемы в процентах
         }
     }
 }

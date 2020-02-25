@@ -8,15 +8,13 @@ namespace Energy.ViewModel
     public class MainWindowViewModel
     {
         MainWindow window = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-
+        MainModel model;
         public MainWindowViewModel()
         {
             OpenTableOneCommand = new DelegateCommand(o => OpenTableOne());
             OpenTableTwoCommand = new DelegateCommand(o => OpenTableTwo());
             OpenTableThreeCommand = new DelegateCommand(o => OpenTableThree());
-            OpenGraphCommand = new DelegateCommand(o => OpenGraph());
-
-            MainModel model = new MainModel();
+            OpenGraphCommand = new DelegateCommand(o => OpenGraph()); 
         }
         #region Command
         public DelegateCommand OpenTableOneCommand { get; set; }
@@ -30,7 +28,7 @@ namespace Energy.ViewModel
             window.mainGrid.Children.Clear();
             window.mainGrid.Children.Add(new View.TableOneView());
         }
-        private void OpenGraph()
+        private void OpenGraph( )
         {
             window.mainGrid.Children.Clear();
             window.mainGrid.Children.Add(new View.GraphPageView());
